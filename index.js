@@ -22,6 +22,7 @@ app.use(fileUpload());
 
 client.connect((err) => {
 	const productDB = client.db("electroDb").collection("electro");
+	const userDB = client.db("electroDb").collection("electroUser");
 
 	app.post("/addProduct", (req, res) => {
 		let number = Math.random() * 10000000000;
@@ -52,7 +53,7 @@ client.connect((err) => {
 		const criteria16 = req.body.criteria16;
 		const criteria17 = req.body.criteria17;
 
-    const key = `${name}_${floorNumber}`;
+   		const key = `${name}_${floorNumber}`;
 		const imgOne = `${brand}_${imageOne.name}`;
 		const imgTwo = `${brand}_${imageTwo.name}`;
 		const imgThree = `${brand}_${imageThree.name}`;
@@ -126,6 +127,29 @@ client.connect((err) => {
 			res.send(documents);
 		})
 	})
+
+	app.post('/addUser',(req, res) => {
+		const user = req.body;
+		console.log(user);
+		userDB.insertOne(user)
+		.then( result => {
+			console.log(result);
+		})
+		.then( err =>{
+			console.log(err);
+		})
+	})
+
+
+
+
+
+
+
+
+
+
+
 	console.log("Electro Connected");
 });
 
